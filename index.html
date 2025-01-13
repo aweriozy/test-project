@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Игра Умножения</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>Игра на умножение</h1>
+      <div class="task-area">
+        <p id="example" class="example">2 x N = ?</p>
+        <input
+          type="number"
+          id="answer"
+          class="answer-input"
+          placeholder="Введите ответ"
+        />
+        <button id="submit" class="btn disabled" disabled>Проверить</button>
+      </div>
+      <div class="feedback-area">
+        <p id="feedback" class="feedback hidden">Правильный ответ!</p>
+      </div>
+      <div class="animation-area" id="animation-area"></div>
+    </div>
+
+    <script src="./js/script.js"></script>
+  </body>
+</html>

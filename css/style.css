@@ -1,0 +1,104 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.game-container {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 400px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.task-area {
+  margin-bottom: 20px;
+}
+
+.example {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.answer-input {
+  width: 200px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 300ms ease;
+}
+
+.btn:hover {
+  background-color: #afeeee;
+}
+
+.btn.disabled {
+  background-color: #a9a9a9;
+  cursor: not-allowed;
+}
+
+.btn.right {
+  background-color: #228b22;
+  color: white;
+}
+
+.btn.wrong {
+  background-color: #fa8072;
+  color: white;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.animation-area {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.block {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: #ffcc00;
+  color: #333;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 1rem;
+  animation: move 500ms forwards;
+}
+
+@keyframes move {
+  to {
+    top: 50%;
+  }
+}
