@@ -1,67 +1,116 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const n = 2;
-  const exampleEl = document.getElementById("example");
-  const answerInput = document.getElementById("answer");
-  const submitButton = document.getElementById("submit");
-  const feedbackEl = document.getElementById("feedback");
-  const animationArea = document.getElementById("animation-area");
+  const N = 4;
+  let multiplier = 1;
+  const examplesContainer = document.getElementById("examples-container");
+  const doneButton = document.getElementById("done-button");
+  let currentInputField = null;
 
-  let currentMultiplier = 1;
+  function addExample() {
+    const exampleWrapper = document.createElement("div");
+    exampleWrapper.classList.add("example");
 
-  function generateQuestion() {
-    exampleEl.textContent = `${n} x ${currentMultiplier} = ?`;
-    answerInput.value = "";
-    answerInput.focus();
-    submitButton.disabled = true;
-    submitButton.classList.add("disabled");
+    const exampleText = document.createElement("span");
+    exampleText.textContent = `${N} x ${multiplier} = `;
+    exampleText.classList.add("example-text");
+    exampleWrapper.appendChild(exampleText);
+
+    const inputField = document.createElement("input");
+    inputField.type = "number";
+    inputField.classList.add("input");
+    inputField.placeholder = "Ответ";
+
+    inputField.addEventListener("input", () => {
+      if (inputField.value.trim() !== "") {
+        enableButton();
+        currentInputField = inputField;
+      } else {
+        disableButton();
+      }
+    });
+
+    inputField.addEventListener("change", () => {
+      checkAnswer(inputField, exampleText);
+    });
+    exampleWrapper.appendChild(inputField);
+
+    const blocksContainer = document.createElement("div");
+    blocksContainer.classList.add("blocks-container");
+    exampleWrapper.appendChild(blocksContainer);
+
+    examplesContainer.appendChild(exampleWrapper);
+    inputField.focus();
   }
 
-  function checkAnswer() {
-    const userAnswer = parseInt(answerInput.value, 10);
-    const correctAnswer = n * currentMultiplier;
+  function checkAnswer(inputField, exampleText) {
+    const userAnswer = parseInt(inputField.value, 10);
+    const correctAnswer = N * multiplier;
 
     if (userAnswer === correctAnswer) {
-      feedbackEl.textContent = "Правильно!";
-      feedbackEl.classList.remove("hidden");
-      submitButton.classList.remove("wrong");
-      submitButton.classList.add("right");
-
-      const block = document.createElement("div");
-      block.classList.add("block");
-      block.textContent = correctAnswer;
-      animationArea.appendChild(block);
-
-      setTimeout(() => {
-        feedbackEl.classList.add("hidden");
-        submitButton.classList.remove("right");
-        block.remove();
-        currentMultiplier++;
-        generateQuestion();
-      }, 1000);
+      markAsCorrect(inputField, exampleText);
+      addBlocks(inputField.parentElement.querySelector(".blocks-container"));
+      multiplier++;
+      multiplier <= 10 ? setTimeout(addExample, 500) : enableCompletion();
     } else {
-      feedbackEl.textContent = "Неправильно!";
-      feedbackEl.classList.remove("hidden");
-      submitButton.classList.remove("right");
-      submitButton.classList.add("wrong");
-
-      setTimeout(() => {
-        feedbackEl.classList.add("hidden");
-        submitButton.classList.remove("wrong");
-      }, 1000);
+      markAsWrong(inputField);
     }
   }
 
-  answerInput.addEventListener("input", () => {
-    if (answerInput.value.trim() !== "") {
-      submitButton.disabled = false;
-      submitButton.classList.remove("disabled");
-    } else {
-      submitButton.disabled = true;
-      submitButton.classList.add("disabled");
+  function markAsCorrect(inputField, exampleText) {
+    doneButton.classList.remove("wrong");
+    doneButton.classList.add("right");
+
+    inputField.disabled = true;
+    inputField.classList.add("correct");
+    inputField.style.color = getComputedStyle(exampleText).color;
+    inputField.style.fontWeight = getComputedStyle(exampleText).fontWeight;
+    inputField.style.fontSize = getComputedStyle(exampleText).fontSize;
+  }
+
+  function markAsWrong(inputField) {
+    inputField.style.color = "red";
+    doneButton.classList.remove("right");
+    doneButton.classList.add("wrong");
+
+    setTimeout(() => {
+      inputField.style.color = "";
+      resetButton();
+    }, 1000);
+  }
+
+  function addBlocks(blocksContainer) {
+    const row = document.createElement("div");
+    row.classList.add("blocks-row");
+
+    for (let i = 0; i < 4; i++) {
+      const block = document.createElement("div");
+      block.classList.add("block");
+      row.appendChild(block);
     }
-  });
+    blocksContainer.appendChild(row);
+  }
 
-  submitButton.addEventListener("click", checkAnswer);
+  function enableCompletion() {
+    doneButton.disabled = false;
+    doneButton.classList.remove("disabled");
+    resetButton();
+  }
 
-  generateQuestion();
+  function enableButton() {
+    doneButton.disabled = false;
+    doneButton.classList.remove("disabled");
+  }
+
+  function disableButton() {
+    doneButton.disabled = true;
+    doneButton.classList.add("disabled");
+    resetButton();
+  }
+
+  function resetButton() {
+    doneButton.classList.remove("right", "wrong");
+    doneButton.classList.add("disabled");
+    doneButton.disabled = true;
+  }
+
+  addExample();
 });

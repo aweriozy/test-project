@@ -7,24 +7,12 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <div class="game-container">
-      <h1>Игра на умножение</h1>
-      <div class="task-area">
-        <p id="example" class="example">2 x N = ?</p>
-        <input
-          type="number"
-          id="answer"
-          class="answer-input"
-          placeholder="Введите ответ"
-        />
-        <button id="submit" class="btn disabled" disabled>Проверить</button>
-      </div>
-      <div class="feedback-area">
-        <p id="feedback" class="feedback hidden">Правильный ответ!</p>
-      </div>
-      <div class="animation-area" id="animation-area"></div>
+    <div id="examples-container" class="examples-container"></div>
+    <div class="done-button-container">
+      <button id="done-button" class="done-button disabled" disabled>
+        Done
+      </button>
     </div>
-
     <script src="./js/script.js"></script>
   </body>
 </html>
